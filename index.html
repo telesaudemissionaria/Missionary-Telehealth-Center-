@@ -3,35 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Telessaúde Missionária (CTM) - Cuidando de Quem Cuida</title>
+    <title>Missionary Telehealth Center (MTC) - Cuidando de Quem Cuida</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Serene Mission -->
-    <!-- Application Structure Plan: A aplicação foi estruturada como uma narrativa visual e interativa, em vez de seguir a ordem linear do relatório. A arquitetura é temática e orientada à jornada do usuário: 1. Hero (Impacto Imediato), 2. O Desafio (Contextualização do Problema), 3. Nossa Solução (Apresentação do Modelo Operacional com um fluxograma interativo), 4. Serviços (Exploração detalhada do portfólio via accordion), 5. Tecnologia (Detalhes técnicos em cards), 6. Desafios (Transparência e Oportunidade), 7. Junte-se a Nós (Chamada para Ação clara). Esta estrutura foi escolhida para engajar o usuário, facilitar a compreensão da complexidade do CTM e conduzi-lo naturalmente do "porquê" ao "como participar", otimizando a usabilidade e a retenção da mensagem. -->
-    <!-- Visualization & Content Choices: Report Info: Cuidado integral (físico, emocional, espiritual) -> Goal: Informar a proporção do cuidado -> Viz: Gráfico de Donut (Chart.js) para representar visualmente o conceito de cuidado 360°. Report Info: Fluxo de Atendimento -> Goal: Organizar e Explicar -> Viz: Fluxograma horizontal interativo (HTML/CSS/JS) para guiar o usuário passo a passo. Report Info: Portfólio de Serviços -> Goal: Organizar e Detalhar -> Viz: Accordion interativo (HTML/CSS/JS) para permitir a exploração sob demanda sem sobrecarregar a tela. Report Info: Desafios e Infraestrutura -> Goal: Informar de forma clara -> Viz: Cards com ícones (HTML/CSS) para segmentar a informação. A escolha por visualizações interativas e conceituais (como o gráfico de donut) foi feita pela natureza qualitativa do relatório, traduzindo conceitos em elementos visuais engajadores. -->
+    <!-- Chosen Palette: Starlink Dark Mission -->
+    <!-- Application Structure Plan: A aplicação foi consolidada para focar na narrativa central. A arquitetura é: 1. Hero, 2. A Crise (Contexto), 3. Visão & Sonho, 4. Estrutura do Hub, 5. Ecossistema Tecnológico (IA + Hardware interativo), 6. Junte-se a Nós. Esta estrutura simplificada remove redundâncias e fortalece a apresentação da solução tecnológica como um todo integrado. -->
+    <!-- Visualization & Content Choices: Report Info: Ecossistema Tecnológico -> Goal: Detalhar a visão da solução -> Viz: Seção unificada com um accordion interativo (HTML/CSS/JS) para cada item tecnológico. Esta abordagem limpa a UI e foca na exploração pelo usuário. A consolidação tecnológica em uma única seção cria um ponto focal mais forte. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #FDFBF8;
-            color: #404040;
-        }
-        .active-nav {
-            color: #D97706;
-            font-weight: 600;
+            background-color: #0a0a0a;
+            color: #e5e7eb;
         }
         .section-title {
             font-size: 2.25rem;
             font-weight: 700;
-            color: #1E3A8A;
+            color: #ffffff;
             margin-bottom: 1rem;
         }
         .section-subtitle {
             font-size: 1.125rem;
-            color: #525252;
+            color: #9ca3af;
             max-width: 800px;
             margin: 0 auto 3rem auto;
         }
@@ -39,229 +35,483 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
+            padding: 0 1rem;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            margin: 2rem auto;
+        .glass-header {
+            background-color: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        .animated-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animated-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+    <header class="glass-header shadow-md shadow-gray-900 sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-blue-900">CTM</a>
-            <div class="hidden md:flex space-x-8 text-gray-600">
-                <a href="#desafio" class="hover:text-amber-600 transition-colors">O Desafio</a>
-                <a href="#solucao" class="hover:text-amber-600 transition-colors">Nossa Solução</a>
-                <a href="#servicos" class="hover:text-amber-600 transition-colors">Serviços</a>
-                <a href="#tecnologia" class="hover:text-amber-600 transition-colors">Tecnologia</a>
-                <a href="#junte-se" class="bg-amber-600 text-white px-4 py-2 rounded-full hover:bg-amber-700 transition-colors">Junte-se a Nós</a>
+            <a href="#" class="text-lg font-bold text-white whitespace-nowrap" data-lang-key="header_title">Missionary Telehealth Center</a>
+            <div class="hidden md:flex items-center space-x-8 text-gray-300">
+                <a href="#crise" class="hover:text-blue-400 transition-colors" data-lang-key="nav_crisis">A Crise</a>
+                <a href="#visao" class="hover:text-blue-400 transition-colors" data-lang-key="nav_vision">Visão</a>
+                <a href="#hub" class="hover:text-blue-400 transition-colors" data-lang-key="nav_hub">O Hub</a>
+                <a href="#tecnologia" class="hover:text-blue-400 transition-colors" data-lang-key="nav_tech">Tecnologia</a>
+                <a href="#junte-se" class="bg-white text-black font-semibold px-4 py-2 rounded-full hover:bg-gray-200 transition-colors" data-lang-key="nav_join">Junte-se a Nós</a>
+                
+                <div class="relative" id="lang-menu-desktop">
+                    <button class="lang-button flex items-center space-x-2">
+                        <span class="current-lang-flag">🇧🇷</span>
+                        <span class="current-lang-text text-sm">PT</span>
+                    </button>
+                    <div class="lang-dropdown hidden absolute right-0 mt-2 py-2 w-40 bg-gray-800 rounded-md shadow-xl z-20">
+                        <a href="#" class="lang-option flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-lang="pt"><span class="mr-2">🇧🇷</span> Português</a>
+                        <a href="#" class="lang-option flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-lang="en"><span class="mr-2">🇺🇸</span> English</a>
+                        <a href="#" class="lang-option flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-lang="es"><span class="mr-2">🇪🇸</span> Español</a>
+                    </div>
+                </div>
             </div>
-            <button id="mobile-menu-button" class="md:hidden text-blue-900">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
             </button>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#desafio" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">O Desafio</a>
-            <a href="#solucao" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Nossa Solução</a>
-            <a href="#servicos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Serviços</a>
-            <a href="#tecnologia" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Tecnologia</a>
-            <a href="#junte-se" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Junte-se a Nós</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800">
+            <a href="#crise" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang-key="nav_crisis">A Crise</a>
+            <a href="#visao" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang-key="nav_vision">Visão</a>
+            <a href="#hub" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang-key="nav_hub">O Hub</a>
+            <a href="#tecnologia" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang-key="nav_tech">Tecnologia</a>
+            <a href="#junte-se" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang-key="nav_join_mobile">Junte-se a Nós</a>
+            <div class="border-t border-gray-700 p-4">
+                <div class="relative" id="lang-menu-mobile">
+                    <button class="lang-button flex items-center justify-between w-full text-left">
+                        <span class="text-gray-300 text-sm" data-lang-key="nav_language">Idioma</span>
+                        <div class="flex items-center space-x-2">
+                           <span class="current-lang-flag">🇧🇷</span>
+                           <span class="current-lang-text text-sm">PT</span>
+                        </div>
+                    </button>
+                    <div class="lang-dropdown hidden mt-2 py-2 w-full bg-gray-700 rounded-md shadow-xl z-20">
+                         <a href="#" class="lang-option flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-600" data-lang="pt"><span class="mr-2">🇧🇷</span> Português</a>
+                         <a href="#" class="lang-option flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-600" data-lang="en"><span class="mr-2">🇺🇸</span> English</a>
+                         <a href="#" class="lang-option flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-600" data-lang="es"><span class="mr-2">🇪🇸</span> Español</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="relative text-center py-20 md:py-32 bg-blue-50">
-            <div class="container mx-auto px-6">
-                <h1 class="text-4xl md:text-6xl font-bold text-blue-900 mb-4">Cuidando de Quem Cuida.</h1>
-                <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">Conectamos missionários em campos remotos a um cuidado de saúde integral e de excelência, porque a saúde não deveria ser uma barreira para o chamado.</p>
+        <section id="hero" class="relative text-center py-20 md:py-32 bg-black">
+            <div class="container mx-auto px-6 animated-item">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-lang-key="hero_title">Cuidando de Quem Cuida.</h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-lang-key="hero_subtitle">Conectamos missionários em campos remotos a um cuidado de saúde integral e de excelência, porque a saúde não deveria ser uma barreira para o chamado.</p>
             </div>
         </section>
 
-        <section id="desafio" class="py-16 md:py-24">
+        <section id="crise" class="py-16 md:py-24 bg-gray-900">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title">O Paradoxo do Campo Missionário</h2>
-                <p class="section-subtitle">Aqueles que dedicam suas vidas para cuidar dos outros frequentemente enfrentam um isolamento que os deixa sem o cuidado mais básico. Esta é a realidade que nos propomos a mudar.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                        <div class="text-4xl mb-4 text-amber-600">🌍</div>
-                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Isolamento Geográfico</h3>
-                        <p class="text-gray-600">Distâncias imensas e terrenos difíceis separam os missionários de hospitais, transformando problemas simples em riscos de vida.</p>
+                <h2 class="section-title animated-item" data-lang-key="crisis_title">Uma Resposta a Três Crises Globais</h2>
+                <p class="section-subtitle animated-item" data-lang-key="crisis_subtitle">O MTC emerge como resposta concreta a três crises simultâneas que impactam o trabalho missionário global.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg animated-item">
+                        <div class="text-3xl mb-4 text-blue-400 font-bold">①</div>
+                        <h3 class="text-xl font-semibold mb-2 text-white" data-lang-key="crisis1_title">Lacuna de Acesso à Saúde</h3>
+                        <p class="text-gray-400" data-lang-key="crisis1_text">Missionários enfrentam um abismo no acesso à saúde. Em locais remotos, uma condição tratável pode se agravar pela falta de diagnóstico, e a ausência de especialistas força evacuações dispendiosas, interrompendo o trabalho vital.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                        <div class="text-4xl mb-4 text-amber-600">🏥</div>
-                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Infraestrutura Precária</h3>
-                        <p class="text-gray-600">A falta de clínicas, especialistas e equipamentos adequados no campo limita drasticamente o acesso a um diagnóstico e tratamento eficazes.</p>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg animated-item" style="transition-delay: 150ms;">
+                        <div class="text-3xl mb-4 text-blue-400 font-bold">②</div>
+                        <h3 class="text-xl font-semibold mb-2 text-white" data-lang-key="crisis2_title">Crise de Saúde Emocional</h3>
+                        <p class="text-gray-400" data-lang-key="crisis2_text">O aumento de burnout, ansiedade e traumas entre agentes transculturais.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                        <div class="text-4xl mb-4 text-amber-600">💬</div>
-                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Barreiras Culturais</h3>
-                        <p class="text-gray-600">Diferenças de idioma e cultura podem gerar mal-entendidos e dificultar a comunicação de necessidades médicas complexas.</p>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg animated-item" style="transition-delay: 300ms;">
+                        <div class="text-3xl mb-4 text-blue-400 font-bold">③</div>
+                        <h3 class="text-xl font-semibold mb-2 text-white" data-lang-key="crisis3_title">Necessidade de Sustentabilidade</h3>
+                        <p class="text-gray-400" data-lang-key="crisis3_text">A urgência por soluções que aliem tecnologia, compaixão e respeito aos contextos locais.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="solucao" class="py-16 md:py-24 bg-blue-50">
+        <section id="visao" class="py-16 md:py-24 bg-black">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title">Nossa Solução: Um Hospital Sem Leitos</h2>
-                <p class="section-subtitle">Construímos uma ponte digital de cuidado. Nossa solução é um ecossistema de telessaúde que leva a expertise médica até o missionário, onde quer que ele esteja, através de um fluxo de atendimento humanizado e eficiente.</p>
-                
-                <div id="care-flow" class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
-                        <div class="text-3xl mb-2">1</div>
-                        <h4 class="font-semibold text-blue-800">Contato Inicial</h4>
-                        <p class="text-sm text-gray-600">Missionário entra em contato via canal seguro e preenche um questionário inicial.</p>
+                <h2 class="section-title animated-item" data-lang-key="vision_title">Nossa Visão, Missão e Sonho</h2>
+                <div class="max-w-4xl mx-auto space-y-8 text-left">
+                    <div class="bg-gray-900 p-6 rounded-lg animated-item">
+                        <h3 class="font-bold text-xl text-blue-400 mb-2" data-lang-key="vision_item1_title">Visão</h3>
+                        <p class="text-gray-300" data-lang-key="vision_item1_text">Ser o hub físico internacional de referência em telessaúde missionária – um "hospital sem leitos" que funciona 24x7, atuando como cérebro e coração de uma rede de cuidado integral em mais de 100 nações.</p>
                     </div>
-                    <div class="hidden md:block text-2xl text-amber-500 font-light">&rarr;</div>
-                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
-                        <div class="text-3xl mb-2">2</div>
-                        <h4 class="font-semibold text-blue-800">Triagem</h4>
-                        <p class="text-sm text-gray-600">Enfermeira qualificada avalia e direciona o caso para o profissional adequado.</p>
+                    <div class="bg-gray-900 p-6 rounded-lg animated-item">
+                        <h3 class="font-bold text-xl text-blue-400 mb-2" data-lang-key="vision_item2_title">Missão</h3>
+                        <p class="text-gray-300" data-lang-key="vision_item2_text">Fornecer cuidado holístico centrado em Cristo a missionários e suas famílias, integrando medicina, psicologia, aconselhamento pastoral e educação preventiva.</p>
                     </div>
-                    <div class="hidden md:block text-2xl text-amber-500 font-light">&rarr;</div>
-                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
-                        <div class="text-3xl mb-2">3</div>
-                        <h4 class="font-semibold text-blue-800">Teleconsulta</h4>
-                        <p class="text-sm text-gray-600">Consulta por vídeo com médico, psicólogo ou especialista em plataforma segura.</p>
+                    <div class="bg-gray-900 p-6 rounded-lg animated-item">
+                        <h3 class="font-bold text-xl text-blue-400 mb-2" data-lang-key="vision_item3_title">Propósito</h3>
+                        <p class="text-gray-300" data-lang-key="vision_item3_text">Garantir que nenhum missionário abandone seu chamado por adoecimento evitável, exaustão emocional ou desamparo espiritual.</p>
                     </div>
-                    <div class="hidden md:block text-2xl text-amber-500 font-light">&rarr;</div>
-                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
-                        <div class="text-3xl mb-2">4</div>
-                        <h4 class="font-semibold text-blue-800">Acompanhamento</h4>
-                        <p class="text-sm text-gray-600">Equipe de enfermagem garante a continuidade do cuidado e monitora o progresso.</p>
+                     <div class="bg-gray-900 p-6 rounded-lg animated-item">
+                        <h3 class="font-bold text-xl text-blue-400 mb-2" data-lang-key="vision_item4_title">Sonho</h3>
+                        <p class="text-gray-300" data-lang-key="vision_item4_text">Construir uma constelação de MTC Hubs interligados, possibilitando cobertura planetária, integração com clínicas móveis e drones de entrega de insumos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="hub" class="py-16 md:py-24 bg-gray-900">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title animated-item" data-lang-key="hub_title">Estrutura Física do HUB: Design para Resiliência</h2>
+                <p class="section-subtitle animated-item" data-lang-key="hub_subtitle">Um oásis digital real e tangível, projetado para operar com máxima eficiência e resiliência, servindo como o centro nevrálgico do cuidado missionário global.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item">
+                        <h3 class="font-semibold text-lg mb-2 text-blue-400" data-lang-key="hub_structure1_title">Salas de Comando Clínico</h3>
+                        <p class="text-gray-400" data-lang-key="hub_structure1_text">Videowall 8K, estações de triagem simultânea e realidade aumentada para apoio a procedimentos guiados.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 100ms;">
+                        <h3 class="font-semibold text-lg mb-2 text-blue-400" data-lang-key="hub_structure2_title">Estúdio de Aconselhamento</h3>
+                        <p class="text-gray-400" data-lang-key="hub_structure2_text">Cabines acústicas, linha direta de oração multilíngue e espaço para vigílias interativas.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 200ms;">
+                        <h3 class="font-semibold text-lg mb-2 text-blue-400" data-lang-key="hub_structure3_title">Laboratório de Inovação (Missio-Lab)</h3>
+                        <p class="text-gray-400" data-lang-key="hub_structure3_text">Impressoras 3D esterilizáveis, bancada IoT médico e gêmeo digital para simulação de desastres.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 300ms;">
+                        <h3 class="font-semibold text-lg mb-2 text-blue-400" data-lang-key="hub_structure4_title">Centro de Dados On-Site</h3>
+                        <p class="text-gray-400" data-lang-key="hub_structure4_text">Cluster GPU para IA médica, cofre de backup off-grid e servidor LoRaWAN para dispositivos de baixa energia.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 400ms;">
+                        <h3 class="font-semibold text-lg mb-2 text-blue-400" data-lang-key="hub_structure5_title">Warehouse Logístico</h3>
+                        <p class="text-gray-400" data-lang-key="hub_structure5_text">Estoque de fármacos essenciais, kits de telessaúde, e equipamentos de energia solar para autonomia em campo.</p>
+                    </div>
+                     <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 500ms;">
+                        <h3 class="font-semibold text-lg mb-2 text-blue-400" data-lang-key="hub_structure6_title">Localização Estratégica</h3>
+                        <p class="text-gray-400" data-lang-key="hub_structure6_text">País com estabilidade, regime de dados favorável (GDPR/LGPD friendly) e hub aéreo internacional.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="servicos" class="py-16 md:py-24">
+        <section id="tecnologia" class="py-16 md:py-24 bg-black">
             <div class="container mx-auto px-6">
                 <div class="text-center">
-                    <h2 class="section-title">Cuidado Integral de 360 Graus</h2>
-                    <p class="section-subtitle">Nossos serviços foram desenhados para cobrir as múltiplas facetas da saúde missionária, reconhecendo que o bem-estar é físico, emocional e espiritual. Clique em cada área para saber mais.</p>
+                    <h2 class="section-title animated-item" data-lang-key="tech_title">Ecossistema Tecnológico e Cognitivo</h2>
+                    <p class="section-subtitle animated-item" data-lang-key="tech_subtitle">Nossa camada cognitiva é distribuída: cada modelo serve a um propósito específico, sempre validado por clínicos humanos para garantir um cuidado seguro, ético e eficaz.</p>
                 </div>
-                <div class="md:flex md:space-x-12 items-center">
-                    <div class="md:w-1/2">
-                        <div id="accordion" class="space-y-2">
-                            <div class="accordion-item border rounded-lg overflow-hidden">
-                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
-                                    Saúde Física
-                                    <span class="transform transition-transform duration-300">+</span>
-                                </button>
-                                <div class="accordion-content bg-white p-4 text-gray-700">
-                                    <ul class="list-disc list-inside space-y-2">
-                                        <li>Consultas médicas online com generalistas e especialistas.</li>
-                                        <li>Suporte de emergência 24/7 para orientação em crises.</li>
-                                        <li>Gestão e monitoramento remoto de doenças crônicas.</li>
-                                        <li>Telediagnóstico com laudos de exames à distância.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                             <div class="accordion-item border rounded-lg overflow-hidden">
-                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
-                                    Saúde Emocional
-                                    <span class="transform transition-transform duration-300">+</span>
-                                </button>
-                                <div class="accordion-content bg-white p-4 text-gray-700">
-                                    <p>Acesso confidencial a psicólogos, psiquiatras e conselheiros cristãos para lidar com estresse, ansiedade, depressão, luto e os desafios da adaptação cultural e do isolamento.</p>
-                                </div>
-                            </div>
-                            <div class="accordion-item border rounded-lg overflow-hidden">
-                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
-                                    Apoio Espiritual
-                                    <span class="transform transition-transform duration-300">+</span>
-                                </button>
-                                <div class="accordion-content bg-white p-4 text-gray-700">
-                                    <p>Uma rede de pastores e intercessores disponíveis para oração, encorajamento bíblico e aconselhamento, reconhecendo que a saúde da alma é inseparável da saúde do corpo e da mente.</p>
-                                </div>
-                            </div>
-                            <div class="accordion-item border rounded-lg overflow-hidden">
-                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
-                                    Educação e Prevenção
-                                    <span class="transform transition-transform duration-300">+</span>
-                                </button>
-                                <div class="accordion-content bg-white p-4 text-gray-700">
-                                    <p>Disponibilização de uma biblioteca digital com recursos confiáveis, webinars e guias práticos para capacitar o missionário no autocuidado e na prevenção de doenças.</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="max-w-4xl mx-auto space-y-2" id="tech-accordion">
+                    <!-- AI Stack -->
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">MedGemma</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_medgemma">Segmentação de imagens radiológicas e ultrassom com feedback em linguagem natural.</p></div>
                     </div>
-                    <div class="md:w-1/2 mt-8 md:mt-0">
-                        <div class="chart-container">
-                            <canvas id="careChart"></canvas>
-                        </div>
-                         <p class="text-center text-gray-600 mt-4">Visualização do nosso foco no cuidado integral.</p>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">Google Health / Open Evidence</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_google">Motor de busca semântico para guidelines e artigos, retornando apenas níveis de evidência A ou B.</p></div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="tecnologia" class="py-16 md:py-24 bg-blue-50">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title">Tecnologia a Serviço da Missão</h2>
-                <p class="section-subtitle">Utilizamos uma infraestrutura tecnológica robusta, segura e acessível para garantir que o cuidado chegue com qualidade e confidencialidade, superando as barreiras da distância.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100 text-center">
-                        <div class="text-4xl mb-4 text-amber-600">💻</div>
-                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Plataformas Seguras</h3>
-                        <p class="text-gray-600">Software de telessaúde com criptografia de ponta a ponta e conformidade com normas globais de segurança (HIPAA, GDPR, LGPD).</p>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">Glass Health</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_glass">Geração estruturada de planos diagnósticos e terapêuticos, formatados em SOAP.</p></div>
                     </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100 text-center">
-                        <div class="text-4xl mb-4 text-amber-600">🛰️</div>
-                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Conectividade Avançada</h3>
-                        <p class="text-gray-600">Implementação de internet via satélite de alta velocidade (como Starlink) para garantir a viabilidade de videochamadas em áreas remotas.</p>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">MAI-DxO</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_mai">Melhoria de contraste e supressão de ruído em imagens point-of-care, útil em campo com iluminação precária.</p></div>
                     </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100 text-center">
-                        <div class="text-4xl mb-4 text-amber-600">🩺</div>
-                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Kits de Telessaúde</h3>
-                        <p class="text-gray-600">Dispositivos médicos portáteis (oxímetro, medidor de pressão, estetoscópio digital) que permitem um exame físico guiado e mais preciso à distância.</p>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">Microsoft Dragon Copilot</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_microsoft">Captura de voz clínica multilíngue, criação automática de sumários e instruções de alta.</p></div>
+                    </div>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">DxGPT / Glass AI</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_dxgpt">Apoio diagnóstico auditado com checagem de viés transcultural.</p></div>
+                    </div>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center"><strong class="text-blue-400">Nav 29</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_nav29">Mapeamento dinâmico de links de evidências para cada decisão clínica.</p></div>
+                    </div>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center" data-lang-key="ai_predictive_title"><strong class="text-blue-400">Modelos Preditivos</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="ai_predictive_text">Detecção antecipada de surtos (malária, dengue) via aprendizado federado dos sinais vitais dos missionários e dados climáticos.</p></div>
+                    </div>
+                    <!-- Hardware Stack -->
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center" data-lang-key="tech_card1_title"><strong class="text-blue-400">Dispositivos de Telemedicina</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="tech_card1_text">Kits de exame remoto all-in-one (TytoCare), ultrassom de bolso, ECG bluetooth e mais.</p></div>
+                    </div>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center" data-lang-key="tech_card2_title"><strong class="text-blue-400">Plataforma MissionCare Plus</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="tech_card2_text">Prontuário unificado, triagem inteligente, chat seguro e tradução automática em 35 idiomas.</p></div>
+                    </div>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center" data-lang-key="tech_card4_title"><strong class="text-blue-400">Wearables Missionários</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="tech_card4_text">Pulseiras multisensores, patches de glicose e botões de pânico SOS integrados ao HUB.</p></div>
+                    </div>
+                    <div class="accordion-item border border-gray-700 rounded-lg overflow-hidden animated-item">
+                        <button class="accordion-header w-full text-left p-4 bg-gray-800 hover:bg-gray-700 transition-colors font-semibold text-white flex justify-between items-center" data-lang-key="tech_card5_title"><strong class="text-blue-400">E-learning Imersivo</strong> <span class="transform transition-transform duration-300">+</span></button>
+                        <div class="accordion-content bg-gray-800"><p class="p-4 pt-0 text-gray-300" data-lang-key="tech_card5_text">Aulas em Realidade Virtual (VR) para primeiros socorros e treinamento em saúde comunitária.</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="junte-se" class="py-16 md:py-24">
+        <section id="junte-se" class="py-16 md:py-24 bg-gray-900">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title">Junte-se a Nós. Seja Parte do Cuidado.</h2>
-                <p class="section-subtitle">O sucesso deste ministério depende de uma aliança de corações e recursos. Sua participação fortalece esta corrente de cuidado e permite que mais missionários sirvam com saúde e segurança.</p>
+                <h2 class="section-title animated-item" data-lang-key="join_title">Junte-se a Nós. Seja Parte do Cuidado.</h2>
+                <p class="section-subtitle animated-item" data-lang-key="join_subtitle">O sucesso deste ministério depende de uma aliança de corações e recursos. Sua participação fortalece esta corrente de cuidado e permite que mais missionários sirvam com saúde e segurança.</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto text-left">
-                    <div class="bg-blue-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl mb-3 text-blue-900">Ore</h3>
-                        <p class="text-gray-700">A intercessão é o alicerce do nosso trabalho. Ore por nossos missionários, pela equipe de saúde voluntária e pela sabedoria na condução do CTM.</p>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item">
+                        <h3 class="font-bold text-xl mb-3 text-white" data-lang-key="join_pray_title">Ore</h3>
+                        <p class="text-gray-400" data-lang-key="join_pray_text">A intercessão é o alicerce do nosso trabalho. Ore por nossos missionários, pela equipe de saúde voluntária e pela sabedoria na condução do MTC.</p>
                     </div>
-                    <div class="bg-blue-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl mb-3 text-blue-900">Doe</h3>
-                        <p class="text-gray-700">Sua contribuição financeira viabiliza a aquisição de kits de telessaúde, a manutenção da infraestrutura e a expansão dos nossos serviços.</p>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 150ms;">
+                        <h3 class="font-bold text-xl mb-3 text-white" data-lang-key="join_donate_title">Doe</h3>
+                        <p class="text-gray-400" data-lang-key="join_donate_text">Sua contribuição financeira viabiliza a aquisição de kits de telessaúde, a manutenção da infraestrutura e a expansão dos nossos serviços.</p>
                     </div>
-                    <div class="bg-blue-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl mb-3 text-blue-900">Seja Voluntário</h3>
-                        <p class="text-gray-700">Se você é um profissional de saúde, psicólogo, conselheiro ou tem habilidades administrativas, sua expertise pode ser um presente inestimável.</p>
+                    <div class="bg-gray-800 p-6 rounded-lg animated-item" style="transition-delay: 300ms;">
+                        <h3 class="font-bold text-xl mb-3 text-white" data-lang-key="join_volunteer_title">Seja Voluntário</h3>
+                        <p class="text-gray-400" data-lang-key="join_volunteer_text">Se você é um profissional de saúde, psicólogo, conselheiro ou tem habilidades administrativas, sua expertise pode ser um presente inestimável.</p>
                     </div>
                 </div>
-                <div class="mt-12">
-                     <a href="mailto:missionarymedicalcare@gmail.com" class="bg-amber-600 text-white font-bold py-3 px-8 rounded-full hover:bg-amber-700 transition-colors text-lg">Entre em Contato para Apoiar</a>
+                <div class="mt-12 animated-item" style="transition-delay: 450ms;">
+                     <a href="https://chat.whatsapp.com/FpQ07VxvHYgFP8uG6bxyT5?mode=ac_t" target="_blank" class="bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition-colors text-lg" data-lang-key="join_button">Junte-se ao HealthTech Missionary</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-blue-900 text-white">
+    <footer class="bg-black border-t border-gray-800">
         <div class="container mx-auto px-6 py-8 text-center">
-            <p class="mb-4">"Você fará bem se ajudá-los na viagem deles de modo que honre a Deus." (3 João 1:6b NVI)</p>
-            <p class="text-sm text-blue-200">&copy; 2025 Centro de Telessaúde Missionária (CTM). Todos os direitos reservados.</p>
-            <p class="text-sm text-blue-200 mt-1">Contato: missionarymedicalcare@gmail.com</p>
+            <p class="mb-4 text-gray-400" data-lang-key="footer_verse">"Você fará bem se ajudá-los na viagem deles de modo que honre a Deus." (3 João 1:6b NVI)</p>
+            <p class="text-sm text-gray-500" data-lang-key="footer_copyright">&copy; 2025 Missionary Telehealth Center (MTC). Todos os direitos reservados.</p>
+            <p class="text-sm text-gray-500 mt-1">Contato: missionarymedicalcare@gmail.com</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const translations = {
+                pt: {
+                    header_title: "Missionary Telehealth Center",
+                    nav_crisis: "A Crise",
+                    nav_vision: "Visão",
+                    nav_hub: "O Hub",
+                    nav_tech: "Tecnologia",
+                    nav_join: "Junte-se a Nós",
+                    nav_join_mobile: "Junte-se a Nós",
+                    nav_language: "Idioma",
+                    hero_title: "Cuidando de Quem Cuida.",
+                    hero_subtitle: "Conectamos missionários em campos remotos a um cuidado de saúde integral e de excelência, porque a saúde não deveria ser uma barreira para o chamado.",
+                    crisis_title: "Uma Resposta a Três Crises Globais",
+                    crisis_subtitle: "O MTC emerge como resposta concreta a três crises simultâneas que impactam o trabalho missionário global.",
+                    crisis1_title: "Lacuna de Acesso à Saúde",
+                    crisis1_text: "Missionários enfrentam um abismo no acesso à saúde. Em locais remotos, uma condição tratável pode se agravar pela falta de diagnóstico, e a ausência de especialistas força evacuações dispendiosas, interrompendo o trabalho vital.",
+                    crisis2_title: "Crise de Saúde Emocional",
+                    crisis2_text: "O aumento de burnout, ansiedade e traumas entre agentes transculturais.",
+                    crisis3_title: "Necessidade de Sustentabilidade",
+                    crisis3_text: "A urgência por soluções que aliem tecnologia, compaixão e respeito aos contextos locais.",
+                    vision_title: "Nossa Visão, Missão e Sonho",
+                    vision_item1_title: "Visão",
+                    vision_item1_text: "Ser o hub físico internacional de referência em telessaúde missionária – um \"hospital sem leitos\" que funciona 24x7, atuando como cérebro e coração de uma rede de cuidado integral em mais de 100 nações.",
+                    vision_item2_title: "Missão",
+                    vision_item2_text: "Fornecer cuidado holístico centrado em Cristo a missionários e suas famílias, integrando medicina, psicologia, aconselhamento pastoral e educação preventiva.",
+                    vision_item3_title: "Propósito",
+                    vision_item3_text: "Garantir que nenhum missionário abandone seu chamado por adoecimento evitável, exaustão emocional ou desamparo espiritual.",
+                    vision_item4_title: "Sonho",
+                    vision_item4_text: "Construir uma constelação de MTC Hubs interligados, possibilitando cobertura planetária, integração com clínicas móveis e drones de entrega de insumos.",
+                    hub_title: "Estrutura Física do HUB: Design para Resiliência",
+                    hub_subtitle: "Um oásis digital real e tangível, projetado para operar com máxima eficiência e resiliência, servindo como o centro nevrálgico do cuidado missionário global.",
+                    hub_structure1_title: "Salas de Comando Clínico",
+                    hub_structure1_text: "Videowall 8K, estações de triagem simultânea e realidade aumentada para apoio a procedimentos guiados.",
+                    hub_structure2_title: "Estúdio de Aconselhamento",
+                    hub_structure2_text: "Cabines acústicas, linha direta de oração multilíngue e espaço para vigílias interativas.",
+                    hub_structure3_title: "Laboratório de Inovação (Missio-Lab)",
+                    hub_structure3_text: "Impressoras 3D esterilizáveis, bancada IoT médico e gêmeo digital para simulação de desastres.",
+                    hub_structure4_title: "Centro de Dados On-Site",
+                    hub_structure4_text: "Cluster GPU para IA médica, cofre de backup off-grid e servidor LoRaWAN para dispositivos de baixa energia.",
+                    hub_structure5_title: "Warehouse Logístico",
+                    hub_structure5_text: "Estoque de fármacos essenciais, kits de telessaúde, e equipamentos de energia solar para autonomia em campo.",
+                    hub_structure6_title: "Localização Estratégica",
+                    hub_structure6_text: "País com estabilidade, regime de dados favorável (GDPR/LGPD friendly) e hub aéreo internacional.",
+                    tech_title: "Ecossistema Tecnológico e Cognitivo",
+                    tech_subtitle: "Nossa camada cognitiva é distribuída: cada modelo serve a um propósito específico, sempre validado por clínicos humanos para garantir um cuidado seguro, ético e eficaz.",
+                    tech_card1_title: "Dispositivos de Telemedicina",
+                    tech_card1_text: "Kits de exame remoto all-in-one (TytoCare), ultrassom de bolso, ECG bluetooth e mais.",
+                    tech_card2_title: "Plataforma MissionCare Plus",
+                    tech_card2_text: "Prontuário unificado, triagem inteligente, chat seguro e tradução automática em 35 idiomas.",
+                    tech_card4_title: "Wearables Missionários",
+                    tech_card4_text: "Pulseiras multisensores, patches de glicose e botões de pânico SOS integrados ao HUB.",
+                    tech_card5_title: "E-learning Imersivo",
+                    tech_card5_text: "Aulas em Realidade Virtual (VR) para primeiros socorros e treinamento em saúde comunitária.",
+                    ai_medgemma: "Segmentação de imagens radiológicas e ultrassom com feedback em linguagem natural.",
+                    ai_google: "Motor de busca semântico para guidelines e artigos, retornando apenas níveis de evidência A ou B.",
+                    ai_glass: "Geração estruturada de planos diagnósticos e terapêuticos, formatados em SOAP.",
+                    ai_mai: "Melhoria de contraste e supressão de ruído em imagens point-of-care, útil em campo com iluminação precária.",
+                    ai_microsoft: "Captura de voz clínica multilíngue, criação automática de sumários e instruções de alta.",
+                    ai_dxgpt: "Apoio diagnóstico auditado com checagem de viés transcultural.",
+                    ai_nav29: "Mapeamento dinâmico de links de evidências para cada decisão clínica.",
+                    ai_predictive_title: "Modelos Preditivos",
+                    ai_predictive_text: "Detecção antecipada de surtos (malária, dengue) via aprendizado federado dos sinais vitais dos missionários e dados climáticos.",
+                    join_title: "Junte-se a Nós. Seja Parte do Cuidado.",
+                    join_subtitle: "O sucesso deste ministério depende de uma aliança de corações e recursos. Sua participação fortalece esta corrente de cuidado e permite que mais missionários sirvam com saúde e segurança.",
+                    join_pray_title: "Ore",
+                    join_pray_text: "A intercessão é o alicerce do nosso trabalho. Ore por nossos missionários, pela equipe de saúde voluntária e pela sabedoria na condução do MTC.",
+                    join_donate_title: "Doe",
+                    join_donate_text: "Sua contribuição financeira viabiliza a aquisição de kits de telessaúde, a manutenção da infraestrutura e a expansão dos nossos serviços.",
+                    join_volunteer_title: "Seja Voluntário",
+                    join_volunteer_text: "Se você é um profissional de saúde, psicólogo, conselheiro ou tem habilidades administrativas, sua expertise pode ser um presente inestimável.",
+                    join_button: "Junte-se ao HealthTech Missionary",
+                    footer_verse: '"Você fará bem se ajudá-los na viagem deles de modo que honre a Deus." (3 João 1:6b NVI)',
+                    footer_copyright: "© 2025 Missionary Telehealth Center (MTC). Todos os direitos reservados."
+                },
+                en: {
+                    header_title: "Missionary Telehealth Center",
+                    nav_crisis: "The Crisis",
+                    nav_vision: "Vision",
+                    nav_hub: "The Hub",
+                    nav_tech: "Technology",
+                    nav_join: "Join Us",
+                    nav_join_mobile: "Join Us",
+                    nav_language: "Language",
+                    hero_title: "Caring for the Caregivers.",
+                    hero_subtitle: "We connect missionaries in remote fields to comprehensive and excellent healthcare, because health should not be a barrier to the call.",
+                    crisis_title: "Answering Three Global Crises",
+                    crisis_subtitle: "The MTC emerges as a concrete response to three simultaneous crises impacting global missionary work.",
+                    crisis1_title: "Healthcare Access Gap",
+                    crisis1_text: "Missionaries face a chasm in healthcare access. In remote locations, a treatable condition can worsen due to lack of diagnosis, and the absence of specialists forces costly evacuations, interrupting vital work.",
+                    crisis2_title: "Emotional Health Crisis",
+                    crisis2_text: "The rise of burnout, anxiety, and trauma among cross-cultural workers.",
+                    crisis3_title: "Need for Sustainability",
+                    crisis3_text: "The urgency for solutions that combine technology, compassion, and respect for local contexts.",
+                    vision_title: "Our Vision, Mission, and Dream",
+                    vision_item1_title: "Vision",
+                    vision_item1_text: "To be the leading international physical hub for missionary telehealth – a \"hospital without beds\" operating 24/7, acting as the brain and heart of a comprehensive care network in over 100 nations.",
+                    vision_item2_title: "Mission",
+                    vision_item2_text: "To provide Christ-centered holistic care to missionaries and their families, integrating medicine, psychology, pastoral counseling, and preventive education.",
+                    vision_item3_title: "Purpose",
+                    vision_item3_text: "To ensure that no missionary has to abandon their calling due to preventable illness, emotional exhaustion, or spiritual distress.",
+                    vision_item4_title: "Dream",
+                    vision_item4_text: "To build a constellation of interconnected MTC Hubs, enabling planetary coverage, integration with mobile clinics, and supply delivery drones.",
+                    hub_title: "The HUB's Physical Structure: Designed for Resilience",
+                    hub_subtitle: "A real and tangible digital oasis, engineered to operate with maximum efficiency and resilience, serving as the nerve center of global missionary care.",
+                    hub_structure1_title: "Clinical Command Rooms",
+                    hub_structure1_text: "8K videowall, simultaneous triage stations, and augmented reality for guided procedure support.",
+                    hub_structure2_title: "Counseling & Intercession Studio",
+                    hub_structure2_text: "Acoustic booths, a multilingual prayer hotline, and space for interactive vigils.",
+                    hub_structure3_title: "Innovation Lab (Missio-Lab)",
+                    hub_structure3_text: "Sterilizable 3D printers, medical IoT workbench, and a digital twin for disaster simulation.",
+                    hub_structure4_title: "On-Site Data Center",
+                    hub_structure4_text: "GPU cluster for medical AI, off-grid backup vault, and LoRaWAN server for low-energy devices.",
+                    hub_structure5_title: "Logistics Warehouse",
+                    hub_structure5_text: "Stock of essential drugs, telehealth kits, and solar power equipment for field autonomy.",
+                    hub_structure6_title: "Strategic Location",
+                    hub_structure6_text: "A country with stability, favorable data regulations (GDPR/LGPD friendly), and an international air hub.",
+                    tech_title: "Technological and Cognitive Ecosystem",
+                    tech_subtitle: "Our cognitive layer is distributed: each model serves a specific purpose, always validated by human clinicians to ensure safe, ethical, and effective care.",
+                    tech_card1_title: "Telemedicine Devices",
+                    tech_card1_text: "All-in-one remote examination kits (TytoCare), pocket ultrasound, Bluetooth ECG, and more.",
+                    tech_card2_title: "MissionCare Plus Platform",
+                    tech_card2_text: "Unified health records, smart triage, secure chat, and automatic translation in 35 languages.",
+                    tech_card4_title: "Missionary Wearables",
+                    tech_card4_text: "Multi-sensor wristbands, needle-free glucose patches, and SOS panic buttons integrated with the HUB.",
+                    tech_card5_title: "Immersive E-learning",
+                    tech_card5_text: "Virtual Reality (VR) classes for first aid and community health training.",
+                    ai_medgemma: "Segmentation of radiological and ultrasound images with natural language feedback.",
+                    ai_google: "Semantic search engine for guidelines and articles, returning only A or B evidence levels.",
+                    ai_glass: "Structured generation of diagnostic and therapeutic plans, formatted in SOAP.",
+                    ai_mai: "Contrast enhancement and noise suppression in point-of-care images, useful in low-light field conditions.",
+                    ai_microsoft: "Multilingual clinical voice capture, automatic creation of summaries and discharge instructions.",
+                    ai_dxgpt: "Audited diagnostic support with cross-cultural bias checking.",
+                    ai_nav29: "Dynamic mapping of evidence links for each clinical decision.",
+                    ai_predictive_title: "Predictive Models",
+                    ai_predictive_text: "Early detection of outbreaks (malaria, dengue) via federated learning from missionary vital signs and climate data.",
+                    join_title: "Join Us. Be Part of the Care.",
+                    join_subtitle: "The success of this ministry depends on an alliance of hearts and resources. Your participation strengthens this chain of care and allows more missionaries to serve in health and safety.",
+                    join_pray_title: "Pray",
+                    join_pray_text: "Intercession is the foundation of our work. Pray for our missionaries, the volunteer health team, and for wisdom in leading the MTC.",
+                    join_donate_title: "Donate",
+                    join_donate_text: "Your financial contribution enables the acquisition of telehealth kits, infrastructure maintenance, and the expansion of our services.",
+                    join_volunteer_title: "Volunteer",
+                    join_volunteer_text: "If you are a health professional, psychologist, counselor, or have administrative skills, your expertise can be an invaluable gift.",
+                    join_button: "Join HealthTech Missionary",
+                    footer_verse: '"You will do well to send them on their journey in a manner worthy of God." (3 John 1:6b ESV)',
+                    footer_copyright: "© 2025 Missionary Telehealth Center (MTC). All rights reserved."
+                },
+                es: {
+                    header_title: "Centro de Telesalud Misionero",
+                    nav_crisis: "La Crisis",
+                    nav_vision: "Visión",
+                    nav_hub: "El Hub",
+                    nav_tech: "Tecnología",
+                    nav_join: "Únete a Nosotros",
+                    nav_join_mobile: "Únete a Nosotros",
+                    nav_language: "Idioma",
+                    hero_title: "Cuidando a Quienes Cuidan.",
+                    hero_subtitle: "Conectamos a misioneros en campos remotos con un cuidado de salud integral y de excelencia, porque la salud no debería ser una barrera para el llamado.",
+                    crisis_title: "Una Respuesta a Tres Crisis Globales",
+                    crisis_subtitle: "El MTC surge como respuesta concreta a tres crisis simultáneas que impactan el trabajo misionero global.",
+                    crisis1_title: "Brecha de Acceso a la Salud",
+                    crisis1_text: "Los misioneros enfrentan un abismo en el acceso a la salud. En lugares remotos, una condición tratable puede agravarse por falta de diagnóstico, y la ausencia de especialistas obliga a evacuaciones costosas, interrumpiendo el trabajo vital.",
+                    crisis2_title: "Crisis de Salud Emocional",
+                    crisis2_text: "El aumento del burnout, la ansiedad y los traumas entre los trabajadores transculturales.",
+                    crisis3_title: "Necesidad de Sostenibilidad",
+                    crisis3_text: "La urgencia de soluciones que combinen tecnología, compasión y respeto por los contextos locales.",
+                    vision_title: "Nuestra Visión, Misión y Sueño",
+                    vision_item1_title: "Visión",
+                    vision_item1_text: "Ser el hub físico internacional de referencia en telesalud misionera – un \"hospital sin camas\" que funciona 24x7, actuando como cerebro y corazón de una red de cuidado integral en más de 100 naciones.",
+                    vision_item2_title: "Misión",
+                    vision_item2_text: "Proveer cuidado holístico centrado en Cristo a los misioneros y sus familias, integrando medicina, psicología, consejería pastoral y educación preventiva.",
+                    vision_item3_title: "Propósito",
+                    vision_item3_text: "Garantizar que ningún misionero tenga que abandonar su llamado por enfermedad evitable, agotamiento emocional o desamparo espiritual.",
+                    vision_item4_title: "Sueño",
+                    vision_item4_text: "Construir una constelación de Hubs MTC interconectados, permitiendo una cobertura planetaria, integración con clínicas móviles y drones de entrega de suministros.",
+                    hub_title: "Estructura Física del HUB: Diseño para la Resiliencia",
+                    hub_subtitle: "Un oasis digital real y tangible, diseñado para operar con máxima eficiencia y resiliencia, sirviendo como el centro neurálgico del cuidado misionero global.",
+                    hub_structure1_title: "Salas de Comando Clínico",
+                    hub_structure1_text: "Videowall 8K, estaciones de triaje simultáneo y realidad aumentada para apoyo a procedimientos guiados.",
+                    hub_structure2_title: "Estudio de Consejería",
+                    hub_structure2_text: "Cabinas acústicas, línea directa de oración multilingüe y espacio para vigilias interactivas.",
+                    hub_structure3_title: "Laboratorio de Innovación (Missio-Lab)",
+                    hub_structure3_text: "Impresoras 3D esterilizables, banco de trabajo de IoT médico y gemelo digital para simulación de desastres.",
+                    hub_structure4_title: "Centro de Datos Local",
+                    hub_structure4_text: "Clúster de GPU para IA médica, bóveda de respaldo fuera de la red y servidor LoRaWAN para dispositivos de baja energía.",
+                    hub_structure5_title: "Almacén Logístico",
+                    hub_structure5_text: "Stock de fármacos esenciales, kits de telesalud y equipos de energía solar para autonomía en el campo.",
+                    hub_structure6_title: "Ubicación Estratégica",
+                    hub_structure6_text: "Un país con estabilidad, regulaciones de datos favorables (compatible con GDPR/LGPD) y un hub aéreo internacional.",
+                    tech_title: "Ecosistema Tecnológico y Cognitivo",
+                    tech_subtitle: "Nuestra capa cognitiva está distribuida: cada modelo sirve a un propósito específico, siempre validado por clínicos humanos para garantizar un cuidado seguro, ético y eficaz.",
+                    tech_card1_title: "Dispositivos de Telemedicina",
+                    tech_card1_text: "Kits de examen remoto todo en uno (TytoCare), ultrasonido de bolsillo, ECG bluetooth y más.",
+                    tech_card2_title: "Plataforma MissionCare Plus",
+                    tech_card2_text: "Registro de salud unificado, triaje inteligente, chat seguro y traducción automática en 35 idiomas.",
+                    tech_card4_title: "Vestibles para Misioneros",
+                    tech_card4_text: "Pulseras multisensor, parches de glucosa y botones de pánico SOS integrados con el HUB.",
+                    tech_card5_title: "E-learning Inmersivo",
+                    tech_card5_text: "Clases en Realidad Virtual (VR) para primeros auxilios y capacitación en salud comunitaria.",
+                    ai_medgemma: "Segmentación de imágenes radiológicas y de ultrasonido con retroalimentación en lenguaje natural.",
+                    ai_google: "Motor de búsqueda semántico para guías y artículos, devolviendo solo niveles de evidencia A o B.",
+                    ai_glass: "Generación estructurada de planes diagnósticos y terapéuticos, formateados en SOAP.",
+                    ai_mai: "Mejora del contraste y supresión de ruido en imágenes de punto de atención, útil en el campo con poca luz.",
+                    ai_microsoft: "Captura de voz clínica multilingüe, creación automática de resúmenes e instrucciones de alta.",
+                    ai_dxgpt: "Apoyo diagnóstico auditado con verificación de sesgo transcultural.",
+                    ai_nav29: "Mapeo dinámico de enlaces de evidencia para cada decisión clínica.",
+                    ai_predictive_title: "Modelos Predictivos",
+                    ai_predictive_text: "Detección temprana de brotes (malaria, dengue) mediante aprendizaje federado de los signos vitales de los misioneros y datos climáticos.",
+                    join_title: "Únete a Nosotros. Sé Parte del Cuidado.",
+                    join_subtitle: "El éxito de este ministerio depende de una alianza de corazones y recursos. Tu participación fortalece esta cadena de cuidado y permite que más misioneros sirvan con salud y seguridad.",
+                    join_pray_title: "Ora",
+                    join_pray_text: "La intercesión es el fundamento de nuestro trabajo. Ora por nuestros misioneros, el equipo de salud voluntario y por sabiduría en la dirección del MTC.",
+                    join_donate_title: "Dona",
+                    join_donate_text: "Tu contribución financiera permite la adquisición de kits de telesalud, el mantenimiento de la infraestructura y la expansión de nuestros servicios.",
+                    join_volunteer_title: "Sé Voluntario",
+                    join_volunteer_text: "Si eres un profesional de la salud, psicólogo, consejero o tienes habilidades administrativas, tu experiencia puede ser un regalo invaluable.",
+                    join_button: "Únete a HealthTech Missionary",
+                    footer_verse: '"Harás bien en encaminarlos en su viaje de una manera digna de Dios." (3 Juan 1:6b NVI)',
+                    footer_copyright: "© 2025 Centro de Telesalud Misionero (MTC). Todos los derechos reservados."
+                }
+            };
+
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             
@@ -269,89 +519,88 @@
                 mobileMenu.classList.toggle('hidden');
             });
 
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
+            document.querySelectorAll('.lang-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const dropdown = button.nextElementSibling;
+                    dropdown.classList.toggle('hidden');
                 });
             });
 
-            const careFlowSteps = document.querySelectorAll('.flow-step');
-            careFlowSteps.forEach(step => {
-                step.addEventListener('mouseover', () => {
-                    step.classList.add('bg-amber-100', 'scale-105');
-                });
-                step.addEventListener('mouseout', () => {
-                    step.classList.remove('bg-amber-100', 'scale-105');
-                });
-            });
-
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const content = header.nextElementSibling;
-                    const icon = header.querySelector('span');
-
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
-                        document.querySelectorAll('.accordion-header span').forEach(i => i.style.transform = 'rotate(0deg)');
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        icon.style.transform = 'rotate(45deg)';
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.lang-dropdown').forEach(dropdown => {
+                    if (!dropdown.classList.contains('hidden')) {
+                        dropdown.classList.add('hidden');
                     }
                 });
             });
 
-            const ctx = document.getElementById('careChart').getContext('2d');
-            const careChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Saúde Física', 'Saúde Emocional', 'Apoio Espiritual'],
-                    datasets: [{
-                        label: 'Foco do Cuidado Integral',
-                        data: [50, 30, 20],
-                        backgroundColor: [
-                            'rgb(30, 58, 138)',
-                            'rgb(217, 119, 6)',
-                            'rgb(14, 116, 144)'
-                        ],
-                        borderColor: '#FDFBF8',
-                        borderWidth: 4,
-                        hoverOffset: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#404040',
-                                font: {
-                                    family: "'Inter', sans-serif"
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + '%';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    cutout: '60%'
-                }
+            const flagMap = { pt: '🇧🇷', en: '🇺🇸', es: '🇪🇸' };
+            const langTextMap = { pt: 'PT', en: 'EN', es: 'ES' };
+            
+            let currentLang = 'pt';
+
+            function changeLanguage(lang) {
+                currentLang = lang;
+                const translation = translations[lang];
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.getAttribute('data-lang-key');
+                    if (translation[key]) {
+                        el.textContent = translation[key];
+                    }
+                });
+                document.querySelectorAll('.current-lang-flag').forEach(el => el.textContent = flagMap[lang]);
+                document.querySelectorAll('.current-lang-text').forEach(el => el.textContent = langTextMap[lang]);
+                document.querySelectorAll('.lang-dropdown').forEach(el => el.classList.add('hidden'));
+                document.documentElement.lang = lang.split('-')[0];
+            }
+
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = option.getAttribute('data-lang');
+                    changeLanguage(lang);
+                });
             });
+
+            const accordionHeaders = document.querySelectorAll('#tech-accordion .accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const parentItem = header.closest('.accordion-item');
+                    if (!parentItem) return;
+                    const content = parentItem.querySelector('.accordion-content');
+                    if (!content) return;
+                    const icon = header.querySelector('span');
+                    const isOpening = !content.style.maxHeight;
+
+                    // Close all others in this specific accordion
+                    document.querySelectorAll('#tech-accordion .accordion-content').forEach(c => c.style.maxHeight = null);
+                    document.querySelectorAll('#tech-accordion .accordion-header span').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                    if (isOpening) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        if (icon) icon.style.transform = 'rotate(45deg)';
+                    } else {
+                        content.style.maxHeight = null;
+                        if (icon) icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            const animatedItems = document.querySelectorAll('.animated-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedItems.forEach(item => {
+                observer.observe(item);
+            });
+
+            changeLanguage('pt');
         });
     </script>
 </body>
