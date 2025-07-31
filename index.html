@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Telessaúde Missionária (CTM) - Cuidando de Quem Cuida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Serene Mission -->
+    <!-- Application Structure Plan: A aplicação foi estruturada como uma narrativa visual e interativa, em vez de seguir a ordem linear do relatório. A arquitetura é temática e orientada à jornada do usuário: 1. Hero (Impacto Imediato), 2. O Desafio (Contextualização do Problema), 3. Nossa Solução (Apresentação do Modelo Operacional com um fluxograma interativo), 4. Serviços (Exploração detalhada do portfólio via accordion), 5. Tecnologia (Detalhes técnicos em cards), 6. Desafios (Transparência e Oportunidade), 7. Junte-se a Nós (Chamada para Ação clara). Esta estrutura foi escolhida para engajar o usuário, facilitar a compreensão da complexidade do CTM e conduzi-lo naturalmente do "porquê" ao "como participar", otimizando a usabilidade e a retenção da mensagem. -->
+    <!-- Visualization & Content Choices: Report Info: Cuidado integral (físico, emocional, espiritual) -> Goal: Informar a proporção do cuidado -> Viz: Gráfico de Donut (Chart.js) para representar visualmente o conceito de cuidado 360°. Report Info: Fluxo de Atendimento -> Goal: Organizar e Explicar -> Viz: Fluxograma horizontal interativo (HTML/CSS/JS) para guiar o usuário passo a passo. Report Info: Portfólio de Serviços -> Goal: Organizar e Detalhar -> Viz: Accordion interativo (HTML/CSS/JS) para permitir a exploração sob demanda sem sobrecarregar a tela. Report Info: Desafios e Infraestrutura -> Goal: Informar de forma clara -> Viz: Cards com ícones (HTML/CSS) para segmentar a informação. A escolha por visualizações interativas e conceituais (como o gráfico de donut) foi feita pela natureza qualitativa do relatório, traduzindo conceitos em elementos visuais engajadores. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #404040;
+        }
+        .active-nav {
+            color: #D97706;
+            font-weight: 600;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #525252;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            margin: 2rem auto;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-blue-900">CTM</a>
+            <div class="hidden md:flex space-x-8 text-gray-600">
+                <a href="#desafio" class="hover:text-amber-600 transition-colors">O Desafio</a>
+                <a href="#solucao" class="hover:text-amber-600 transition-colors">Nossa Solução</a>
+                <a href="#servicos" class="hover:text-amber-600 transition-colors">Serviços</a>
+                <a href="#tecnologia" class="hover:text-amber-600 transition-colors">Tecnologia</a>
+                <a href="#junte-se" class="bg-amber-600 text-white px-4 py-2 rounded-full hover:bg-amber-700 transition-colors">Junte-se a Nós</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-blue-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#desafio" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">O Desafio</a>
+            <a href="#solucao" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Nossa Solução</a>
+            <a href="#servicos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Serviços</a>
+            <a href="#tecnologia" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Tecnologia</a>
+            <a href="#junte-se" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Junte-se a Nós</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="relative text-center py-20 md:py-32 bg-blue-50">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-bold text-blue-900 mb-4">Cuidando de Quem Cuida.</h1>
+                <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">Conectamos missionários em campos remotos a um cuidado de saúde integral e de excelência, porque a saúde não deveria ser uma barreira para o chamado.</p>
+            </div>
+        </section>
+
+        <section id="desafio" class="py-16 md:py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title">O Paradoxo do Campo Missionário</h2>
+                <p class="section-subtitle">Aqueles que dedicam suas vidas para cuidar dos outros frequentemente enfrentam um isolamento que os deixa sem o cuidado mais básico. Esta é a realidade que nos propomos a mudar.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-4xl mb-4 text-amber-600">🌍</div>
+                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Isolamento Geográfico</h3>
+                        <p class="text-gray-600">Distâncias imensas e terrenos difíceis separam os missionários de hospitais, transformando problemas simples em riscos de vida.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-4xl mb-4 text-amber-600">🏥</div>
+                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Infraestrutura Precária</h3>
+                        <p class="text-gray-600">A falta de clínicas, especialistas e equipamentos adequados no campo limita drasticamente o acesso a um diagnóstico e tratamento eficazes.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                        <div class="text-4xl mb-4 text-amber-600">💬</div>
+                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Barreiras Culturais</h3>
+                        <p class="text-gray-600">Diferenças de idioma e cultura podem gerar mal-entendidos e dificultar a comunicação de necessidades médicas complexas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solucao" class="py-16 md:py-24 bg-blue-50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title">Nossa Solução: Um Hospital Sem Leitos</h2>
+                <p class="section-subtitle">Construímos uma ponte digital de cuidado. Nossa solução é um ecossistema de telessaúde que leva a expertise médica até o missionário, onde quer que ele esteja, através de um fluxo de atendimento humanizado e eficiente.</p>
+                
+                <div id="care-flow" class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
+                        <div class="text-3xl mb-2">1</div>
+                        <h4 class="font-semibold text-blue-800">Contato Inicial</h4>
+                        <p class="text-sm text-gray-600">Missionário entra em contato via canal seguro e preenche um questionário inicial.</p>
+                    </div>
+                    <div class="hidden md:block text-2xl text-amber-500 font-light">&rarr;</div>
+                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
+                        <div class="text-3xl mb-2">2</div>
+                        <h4 class="font-semibold text-blue-800">Triagem</h4>
+                        <p class="text-sm text-gray-600">Enfermeira qualificada avalia e direciona o caso para o profissional adequado.</p>
+                    </div>
+                    <div class="hidden md:block text-2xl text-amber-500 font-light">&rarr;</div>
+                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
+                        <div class="text-3xl mb-2">3</div>
+                        <h4 class="font-semibold text-blue-800">Teleconsulta</h4>
+                        <p class="text-sm text-gray-600">Consulta por vídeo com médico, psicólogo ou especialista em plataforma segura.</p>
+                    </div>
+                    <div class="hidden md:block text-2xl text-amber-500 font-light">&rarr;</div>
+                    <div class="flow-step text-center p-4 rounded-lg transition-all duration-300 w-full md:w-1/5">
+                        <div class="text-3xl mb-2">4</div>
+                        <h4 class="font-semibold text-blue-800">Acompanhamento</h4>
+                        <p class="text-sm text-gray-600">Equipe de enfermagem garante a continuidade do cuidado e monitora o progresso.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicos" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="section-title">Cuidado Integral de 360 Graus</h2>
+                    <p class="section-subtitle">Nossos serviços foram desenhados para cobrir as múltiplas facetas da saúde missionária, reconhecendo que o bem-estar é físico, emocional e espiritual. Clique em cada área para saber mais.</p>
+                </div>
+                <div class="md:flex md:space-x-12 items-center">
+                    <div class="md:w-1/2">
+                        <div id="accordion" class="space-y-2">
+                            <div class="accordion-item border rounded-lg overflow-hidden">
+                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
+                                    Saúde Física
+                                    <span class="transform transition-transform duration-300">+</span>
+                                </button>
+                                <div class="accordion-content bg-white p-4 text-gray-700">
+                                    <ul class="list-disc list-inside space-y-2">
+                                        <li>Consultas médicas online com generalistas e especialistas.</li>
+                                        <li>Suporte de emergência 24/7 para orientação em crises.</li>
+                                        <li>Gestão e monitoramento remoto de doenças crônicas.</li>
+                                        <li>Telediagnóstico com laudos de exames à distância.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <div class="accordion-item border rounded-lg overflow-hidden">
+                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
+                                    Saúde Emocional
+                                    <span class="transform transition-transform duration-300">+</span>
+                                </button>
+                                <div class="accordion-content bg-white p-4 text-gray-700">
+                                    <p>Acesso confidencial a psicólogos, psiquiatras e conselheiros cristãos para lidar com estresse, ansiedade, depressão, luto e os desafios da adaptação cultural e do isolamento.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item border rounded-lg overflow-hidden">
+                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
+                                    Apoio Espiritual
+                                    <span class="transform transition-transform duration-300">+</span>
+                                </button>
+                                <div class="accordion-content bg-white p-4 text-gray-700">
+                                    <p>Uma rede de pastores e intercessores disponíveis para oração, encorajamento bíblico e aconselhamento, reconhecendo que a saúde da alma é inseparável da saúde do corpo e da mente.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item border rounded-lg overflow-hidden">
+                                <button class="accordion-header w-full text-left p-4 bg-blue-100/50 hover:bg-blue-100 transition-colors font-semibold text-blue-900 flex justify-between items-center">
+                                    Educação e Prevenção
+                                    <span class="transform transition-transform duration-300">+</span>
+                                </button>
+                                <div class="accordion-content bg-white p-4 text-gray-700">
+                                    <p>Disponibilização de uma biblioteca digital com recursos confiáveis, webinars e guias práticos para capacitar o missionário no autocuidado e na prevenção de doenças.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 mt-8 md:mt-0">
+                        <div class="chart-container">
+                            <canvas id="careChart"></canvas>
+                        </div>
+                         <p class="text-center text-gray-600 mt-4">Visualização do nosso foco no cuidado integral.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tecnologia" class="py-16 md:py-24 bg-blue-50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title">Tecnologia a Serviço da Missão</h2>
+                <p class="section-subtitle">Utilizamos uma infraestrutura tecnológica robusta, segura e acessível para garantir que o cuidado chegue com qualidade e confidencialidade, superando as barreiras da distância.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100 text-center">
+                        <div class="text-4xl mb-4 text-amber-600">💻</div>
+                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Plataformas Seguras</h3>
+                        <p class="text-gray-600">Software de telessaúde com criptografia de ponta a ponta e conformidade com normas globais de segurança (HIPAA, GDPR, LGPD).</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100 text-center">
+                        <div class="text-4xl mb-4 text-amber-600">🛰️</div>
+                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Conectividade Avançada</h3>
+                        <p class="text-gray-600">Implementação de internet via satélite de alta velocidade (como Starlink) para garantir a viabilidade de videochamadas em áreas remotas.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100 text-center">
+                        <div class="text-4xl mb-4 text-amber-600">🩺</div>
+                        <h3 class="text-xl font-semibold mb-2 text-blue-800">Kits de Telessaúde</h3>
+                        <p class="text-gray-600">Dispositivos médicos portáteis (oxímetro, medidor de pressão, estetoscópio digital) que permitem um exame físico guiado e mais preciso à distância.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="junte-se" class="py-16 md:py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title">Junte-se a Nós. Seja Parte do Cuidado.</h2>
+                <p class="section-subtitle">O sucesso deste ministério depende de uma aliança de corações e recursos. Sua participação fortalece esta corrente de cuidado e permite que mais missionários sirvam com saúde e segurança.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto text-left">
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-3 text-blue-900">Ore</h3>
+                        <p class="text-gray-700">A intercessão é o alicerce do nosso trabalho. Ore por nossos missionários, pela equipe de saúde voluntária e pela sabedoria na condução do CTM.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-3 text-blue-900">Doe</h3>
+                        <p class="text-gray-700">Sua contribuição financeira viabiliza a aquisição de kits de telessaúde, a manutenção da infraestrutura e a expansão dos nossos serviços.</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-3 text-blue-900">Seja Voluntário</h3>
+                        <p class="text-gray-700">Se você é um profissional de saúde, psicólogo, conselheiro ou tem habilidades administrativas, sua expertise pode ser um presente inestimável.</p>
+                    </div>
+                </div>
+                <div class="mt-12">
+                     <a href="mailto:missionarymedicalcare@gmail.com" class="bg-amber-600 text-white font-bold py-3 px-8 rounded-full hover:bg-amber-700 transition-colors text-lg">Entre em Contato para Apoiar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-blue-900 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="mb-4">"Você fará bem se ajudá-los na viagem deles de modo que honre a Deus." (3 João 1:6b NVI)</p>
+            <p class="text-sm text-blue-200">&copy; 2025 Centro de Telessaúde Missionária (CTM). Todos os direitos reservados.</p>
+            <p class="text-sm text-blue-200 mt-1">Contato: missionarymedicalcare@gmail.com</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const careFlowSteps = document.querySelectorAll('.flow-step');
+            careFlowSteps.forEach(step => {
+                step.addEventListener('mouseover', () => {
+                    step.classList.add('bg-amber-100', 'scale-105');
+                });
+                step.addEventListener('mouseout', () => {
+                    step.classList.remove('bg-amber-100', 'scale-105');
+                });
+            });
+
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('span');
+
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                        document.querySelectorAll('.accordion-header span').forEach(i => i.style.transform = 'rotate(0deg)');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = 'rotate(45deg)';
+                    }
+                });
+            });
+
+            const ctx = document.getElementById('careChart').getContext('2d');
+            const careChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Saúde Física', 'Saúde Emocional', 'Apoio Espiritual'],
+                    datasets: [{
+                        label: 'Foco do Cuidado Integral',
+                        data: [50, 30, 20],
+                        backgroundColor: [
+                            'rgb(30, 58, 138)',
+                            'rgb(217, 119, 6)',
+                            'rgb(14, 116, 144)'
+                        ],
+                        borderColor: '#FDFBF8',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#404040',
+                                font: {
+                                    family: "'Inter', sans-serif"
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
